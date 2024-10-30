@@ -19,20 +19,20 @@ function renderTimestamp(timestamp) {
 
 function renderIsStream(bool) {
     if (bool) {
-        return <Tag color="blue" size="large">流</Tag>;
+        return <Tag color="blue" size="large">Flow</Tag>;
     } else {
-        return <Tag color="purple" size="large">非流</Tag>;
+        return <Tag color="purple" size="large">Non-stream</Tag>;
     }
 }
 
 function renderUseTime(type) {
     const time = parseInt(type);
     if (time < 101) {
-        return <Tag color="green" size="large"> {time} 秒 </Tag>;
+        return <Tag color="green" size="large"> {time} Second </Tag>;
     } else if (time < 300) {
-        return <Tag color="orange" size="large"> {time} 秒 </Tag>;
+        return <Tag color="orange" size="large"> {time} Second </Tag>;
     } else {
-        return <Tag color="red" size="large"> {time} 秒 </Tag>;
+        return <Tag color="red" size="large"> {time} Second </Tag>;
     }
 }
 
@@ -44,10 +44,10 @@ const LogsTable = () => {
     const [activeKeys, setActiveKeys] = useState([]);
     const [pageSize, setPageSize] = useState(ITEMS_PER_PAGE);
     const [baseUrl, setBaseUrl] = useState('');
-    const baseUrls = JSON.parse(process.env.REACT_APP_BASE_URL);  // 解析环境变量
+    const baseUrls = JSON.parse(process.env.REACT_APP_BASE_URL);  // Parsing environment variables
 
     useEffect(() => {
-        // 默认设置第一个地址为baseUrl
+        // By default, the first address is set to baseUrl
         const firstKey = Object.keys(baseUrls)[0];
         setActiveTabKey(firstKey);
         setBaseUrl(baseUrls[firstKey]);
@@ -64,7 +64,7 @@ const LogsTable = () => {
             [key]: {
                 balance: 0,
                 usage: 0,
-                accessdate: "未知",
+                accessdate: "Unknown",
                 logs: [],
                 tokenValid: false,
             }
@@ -73,12 +73,12 @@ const LogsTable = () => {
 
     const fetchData = async () => {
         if (apikey === '') {
-            Toast.warning('请先输入令牌，再进行查询');
+            Toast.warning('Please enter the token before querying');
             return;
         }
         // 检查令牌格式
         if (!/^sk-[a-zA-Z0-9]{48}$/.test(apikey)) {
-            Toast.error('令牌格式非法！');
+            Toast.error('Illegal token format!');
             return;
         }
         setLoading(true);
@@ -106,8 +106,8 @@ const LogsTable = () => {
             }
         } catch (e) {
             console.log(e)
-            Toast.error("令牌已用尽");
-            resetData(activeTabKey); // 如果发生错误，重置所有数据为默认值
+            Toast.error("Token Exhausted");
+            resetData(activeTabKey); // If an error occurs, reset all data to default values
             setLoading(false);
         }
         try {
@@ -120,14 +120,14 @@ const LogsTable = () => {
                     for (let i = 0; i < logData.length; i++) {
                         quota += logData[i].quota;
                     }
-                    setActiveKeys(['1', '2']); // 自动展开两个折叠面板
+                    setActiveKeys(['1', '2']); // Automatically expand two accordions
                 } else {
-                    Toast.error('查询调用详情失败，请输入正确的令牌');
+                    Toast.error('Failed to query call details, please enter the correct token');
                 }
             }
         } catch (e) {
-            Toast.error("查询失败，请输入正确的令牌");
-            resetData(activeTabKey); // 如果发生错误，重置所有数据为默认值
+            Toast.error("Query failed, please enter a correct token");
+            resetData(activeTabKey); // If an error occurs, reset all data to default values
             setLoading(false);
         }
         setTabData((prevData) => ({
@@ -140,21 +140,21 @@ const LogsTable = () => {
 
     const copyText = async (text) => {
         if (await copy(text)) {
-            Toast.success('已复制：' + text);
+            Toast.success('Copied:' + text);
         } else {
-            Modal.error({ title: '无法复制到剪贴板，请手动复制', content: text });
+            Modal.error({ title: 'Unable to copy to clipboard, please copy manually', content: text });
         }
     };
 
     const columns = [
         {
-            title: '时间',
+            title: 'Created At',
             dataIndex: 'created_at',
             render: renderTimestamp,
             sorter: (a, b) => a.created_at - b.created_at,
         },
         {
-            title: '令牌名称',
+            title: 'Token Name',
             dataIndex: 'token_name',
             render: (text, record, index) => {
                 return record.type === 0 || record.type === 2 ? (
@@ -177,7 +177,7 @@ const LogsTable = () => {
             sorter: (a, b) => ('' + a.token_name).localeCompare(b.token_name),
         },
         {
-            title: '模型',
+            title: 'Model',
             dataIndex: 'model_name',
             render: (text, record, index) => {
                 return record.type === 0 || record.type === 2 ? (
@@ -200,7 +200,7 @@ const LogsTable = () => {
             sorter: (a, b) => ('' + a.model_name).localeCompare(b.model_name),
         },
         {
-            title: '用时',
+            title: 'Time',
             dataIndex: 'use_time',
             render: (text, record, index) => {
                 return record.model_name.startsWith('mj_') ? null : (
@@ -215,7 +215,7 @@ const LogsTable = () => {
             sorter: (a, b) => a.use_time - b.use_time,
         },
         {
-            title: '提示',
+            title: 'Prompt Tokens',
             dataIndex: 'prompt_tokens',
             render: (text, record, index) => {
                 return record.model_name.startsWith('mj_') ? null : (
@@ -225,7 +225,7 @@ const LogsTable = () => {
             sorter: (a, b) => a.prompt_tokens - b.prompt_tokens,
         },
         {
-            title: '补全',
+            title: 'Completion Tokens',
             dataIndex: 'completion_tokens',
             render: (text, record, index) => {
                 return parseInt(text) > 0 && (record.type === 0 || record.type === 2) ? (
@@ -237,7 +237,7 @@ const LogsTable = () => {
             sorter: (a, b) => a.completion_tokens - b.completion_tokens,
         },
         {
-            title: '花费',
+            title: 'Quota',
             dataIndex: 'quota',
             render: (text, record, index) => {
                 return record.type === 0 || record.type === 2 ? <div>{renderQuota(text, 6)}</div> : <></>;
@@ -245,7 +245,7 @@ const LogsTable = () => {
             sorter: (a, b) => a.quota - b.quota,
         },
         {
-            title: '详情',
+            title: 'Content',
             dataIndex: 'content',
             render: (text, record, index) => {
                 let other = null;
@@ -256,7 +256,7 @@ const LogsTable = () => {
                     other = JSON.parse(record.other);
                 } catch (e) {
                     return (
-                        <Tooltip content="该版本不支持显示计算详情">
+                        <Tooltip content="This version does not support displaying calculation details">
                             <Paragraph
                                 ellipsis={{
                                     rows: 2,
@@ -308,10 +308,10 @@ const LogsTable = () => {
         e.stopPropagation();
         const activeTabData = tabData[activeTabKey] || {};
         const { balance, usage, accessdate } = activeTabData;
-        const info = `令牌总额: ${balance === 100000000 ? '无限' : `${balance.toFixed(3)}`}
-剩余额度: ${balance === 100000000 ? '无限制' : `${(balance - usage).toFixed(3)}`}
-已用额度: ${balance === 100000000 ? '不进行计算' : `${usage.toFixed(3)}`}
-有效期至: ${accessdate === 0 ? '永不过期' : renderTimestamp(accessdate)}`;
+        const info = `Total Tokens: ${balance === 100000000 ? 'Unlimited' : `${balance.toFixed(3)}`}
+Remaining Amount: ${balance === 100000000 ? 'No Restrictions' : `${(balance - usage).toFixed(3)}`}
+Used Amount: ${balance === 100000000 ? 'No Calculation' : `${usage.toFixed(3)}`}
+Valid Until: ${accessdate === 0 ? 'Never Expires' : renderTimestamp(accessdate)}`;
         copyText(info);
     };
 
@@ -320,15 +320,15 @@ const LogsTable = () => {
         const activeTabData = tabData[activeTabKey] || { logs: [] };
         const { logs } = activeTabData;
         const csvData = logs.map(log => ({
-            '时间': renderTimestamp(log.created_at),
-            '模型': log.model_name,
-            '用时': log.use_time,
-            '提示': log.prompt_tokens,
-            '补全': log.completion_tokens,
-            '花费': log.quota,
-            '详情': log.content,
+            'Created At': renderTimestamp(log.created_at),
+            'Model': log.model_name,
+            'Time': log.use_time,
+            'Prompt Tokens': log.prompt_tokens,
+            'Completion Tokens': log.completion_tokens,
+            'Quota': log.quota,
+            'Content': log.content,
         }));
-        const csvString = '\ufeff' + Papa.unparse(csvData);  // 使用PapaParse库来转换数据
+        const csvString = '\ufeff' + Papa.unparse(csvData);  // Use the PapaParse library to convert data
         const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -339,7 +339,7 @@ const LogsTable = () => {
         document.body.removeChild(link);
     };
 
-    const activeTabData = tabData[activeTabKey] || { logs: [], balance: 0, usage: 0, accessdate: "未知", tokenValid: false };
+    const activeTabData = tabData[activeTabKey] || { logs: [], balance: 0, usage: 0, accessdate: "Unknown", tokenValid: false };
 
     const renderContent = () => (
         <>
@@ -348,7 +348,7 @@ const LogsTable = () => {
                     showClear
                     value={apikey}
                     onChange={(value) => setAPIKey(value)}
-                    placeholder="请输入要查询的令牌 sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    placeholder="Please enter the token to be queried sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
                     prefix={<IconSearch />}
                     suffix={
                         <Button
@@ -358,7 +358,7 @@ const LogsTable = () => {
                             loading={loading}
                             disabled={apikey === ''}
                         >
-                            查询
+                            Query
                         </Button>
                     }
                     onKeyDown={(e) => {
@@ -372,30 +372,30 @@ const LogsTable = () => {
                 <Collapse activeKey={activeKeys} onChange={(keys) => setActiveKeys(keys)}>
                     {process.env.REACT_APP_SHOW_BALANCE === "true" && (
                         <Panel
-                            header="令牌信息"
+                            header="Token Information"
                             itemKey="1"
                             extra={
                                 <Button icon={<IconCopy />} theme='borderless' type='primary' onClick={(e) => copyTokenInfo(e)} disabled={!activeTabData.tokenValid}>
-                                    复制令牌信息
+                                    Copy Token Information
                                 </Button>
                             }
                         >
                             <Spin spinning={loading}>
                                 <div style={{ marginBottom: 16 }}>
                                     <Text type="secondary">
-                                        令牌总额：{activeTabData.balance === 100000000 ? "无限" : activeTabData.balance === "未知" || activeTabData.balance === undefined ? "未知" : `${activeTabData.balance.toFixed(3)}`}
+                                        Total Tokens:{activeTabData.balance === 100000000 ? "Unlimited" : activeTabData.balance === "Unknown" || activeTabData.balance === undefined ? "Unknown" : `${activeTabData.balance.toFixed(3)}`}
                                     </Text>
                                     <br /><br />
                                     <Text type="secondary">
-                                        剩余额度：{activeTabData.balance === 100000000 ? "无限制" : activeTabData.balance === "未知" || activeTabData.usage === "未知" || activeTabData.balance === undefined || activeTabData.usage === undefined ? "未知" : `${(activeTabData.balance - activeTabData.usage).toFixed(3)}`}
+                                        Remaining Amount：{activeTabData.balance === 100000000 ? "No Restrictions" : activeTabData.balance === "Unknown" || activeTabData.usage === "Unknown" || activeTabData.balance === undefined || activeTabData.usage === undefined ? "Unknown" : `${(activeTabData.balance - activeTabData.usage).toFixed(3)}`}
                                     </Text>
                                     <br /><br />
                                     <Text type="secondary">
-                                        已用额度：{activeTabData.balance === 100000000 ? "不进行计算" : activeTabData.usage === "未知" || activeTabData.usage === undefined ? "未知" : `${activeTabData.usage.toFixed(3)}`}
+                                        Used Amount：{activeTabData.balance === 100000000 ? "No Calculation" : activeTabData.usage === "Unknown" || activeTabData.usage === undefined ? "Unknown" : `${activeTabData.usage.toFixed(3)}`}
                                     </Text>
                                     <br /><br />
                                     <Text type="secondary">
-                                        有效期至：{activeTabData.accessdate === 0 ? '永不过期' : activeTabData.accessdate === "未知" ? '未知' : renderTimestamp(activeTabData.accessdate)}
+                                        Valid Until:{activeTabData.accessdate === 0 ? 'Never Expires' : activeTabData.accessdate === "Unknown" ? 'Unknown' : renderTimestamp(activeTabData.accessdate)}
                                     </Text>
                                 </div>
                             </Spin>
@@ -403,13 +403,13 @@ const LogsTable = () => {
                     )}
                     {process.env.REACT_APP_SHOW_DETAIL === "true" && (
                         <Panel
-                            header="调用详情"
+                            header="Call Details"
                             itemKey="2"
                             extra={
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <Tag shape='circle' color='green' style={{ marginRight: 5 }}>计算汇率：$1 = 50 0000 tokens</Tag>
+                                    <Tag shape='circle' color='green' style={{ marginRight: 5 }}>Calculated exchange rate: $1 = 50 0000 tokens</Tag>
                                     <Button icon={<IconDownload />} theme='borderless' type='primary' onClick={(e) => exportCSV(e)} disabled={!activeTabData.tokenValid || activeTabData.logs.length === 0}>
-                                        导出为CSV文件
+                                        Export to CSV file
                                     </Button>
                                 </div>
                             }
