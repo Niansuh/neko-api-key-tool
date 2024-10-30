@@ -19,9 +19,9 @@ function renderTimestamp(timestamp) {
 
 function renderIsStream(bool) {
     if (bool) {
-        return <Tag color="blue" size="large">Flow</Tag>;
+        return <Tag color="blue" size="large">Stream</Tag>;
     } else {
-        return <Tag color="purple" size="large">Non-stream</Tag>;
+        return <Tag color="purple" size="large">Non-Stream</Tag>;
     }
 }
 
