@@ -383,7 +383,7 @@ Valid Until: ${accessdate === 0 ? 'Never Expires' : renderTimestamp(accessdate)}
                             <Spin spinning={loading}>
                                 <div style={{ marginBottom: 16 }}>
                                     <Text type="secondary">
-                                        Total Tokens:{activeTabData.balance === 100000000 ? "Unlimited" : activeTabData.balance === "Unknown" || activeTabData.balance === undefined ? "Unknown" : `${activeTabData.balance.toFixed(3)}`}
+                                        Total Tokens: {activeTabData.balance === 100000000 ? "Unlimited" : activeTabData.balance === "Unknown" || activeTabData.balance === undefined ? "Unknown" : `${activeTabData.balance.toFixed(3)}`}
                                     </Text>
                                     <br /><br />
                                     <Text type="secondary">
@@ -395,7 +395,7 @@ Valid Until: ${accessdate === 0 ? 'Never Expires' : renderTimestamp(accessdate)}
                                     </Text>
                                     <br /><br />
                                     <Text type="secondary">
-                                        Valid Until:{activeTabData.accessdate === 0 ? 'Never Expires' : activeTabData.accessdate === "Unknown" ? 'Unknown' : renderTimestamp(activeTabData.accessdate)}
+                                        Valid Until: {activeTabData.accessdate === 0 ? 'Never Expires' : activeTabData.accessdate === "Unknown" ? 'Unknown' : renderTimestamp(activeTabData.accessdate)}
                                     </Text>
                                 </div>
                             </Spin>
