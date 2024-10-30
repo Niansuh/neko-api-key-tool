@@ -76,22 +76,22 @@ export function showError(error) {
           // window.location.href = '/login?expired=true';
           break;
         case 429:
-          toast.error('错误：请求次数过多，请稍后再试！', showErrorOptions);
+          toast.error('Error: Too many requests, please try again later!', showErrorOptions);
           break;
         case 500:
-          toast.error('错误：服务器内部错误，请联系管理员！', showErrorOptions);
+          toast.error('Error: Internal server error, please contact the administrator!', showErrorOptions);
           break;
         case 405:
-          toast.info('本站仅作演示之用，无服务端！');
+          toast.info('This site is for demonstration purposes only and has no server!');
           break;
         default:
-          toast.error('错误：' + error.message, showErrorOptions);
+          toast.error('Mistake:' + error.message, showErrorOptions);
       }
       return;
     }
-    toast.error('错误：' + error.message, showErrorOptions);
+    toast.error('Mistake:' + error.message, showErrorOptions);
   } else {
-    toast.error('错误：' + error, showErrorOptions);
+    toast.error('Mistake:' + error, showErrorOptions);
   }
 }
 
