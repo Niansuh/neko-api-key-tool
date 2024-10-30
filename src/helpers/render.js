@@ -138,12 +138,12 @@ export function renderModelPrice(
 ) {
   // 1 ratio = $0.002 / 1K tokens
   if (modelPrice !== -1) {
-    return '模型价格：$' + modelPrice * groupRatio;
+    return 'Model Price:$' + modelPrice * groupRatio;
   } else {
     if (completionRatio === undefined) {
       completionRatio = 0;
     }
-    // 这里的 *2 是因为 1倍率=0.002刀，请勿删除
+    // The *2 here is because 1x = $0.002, please do not delete it
     let inputRatioPrice = modelRatio * 2.0 * groupRatio;
     let completionRatioPrice = modelRatio * 2.0 * completionRatio * groupRatio;
     let price =
@@ -152,11 +152,11 @@ export function renderModelPrice(
     return (
       <>
         <article>
-          <p>提示 ${inputRatioPrice} / 1M tokens</p>
-          <p>补全 ${completionRatioPrice} / 1M tokens</p>
+          <p>Prompt ${inputRatioPrice} / 1M tokens</p>
+          <p>Completion ${completionRatioPrice} / 1M tokens</p>
           <p></p>
           <p>
-            提示 {inputTokens} tokens / 1M tokens * ${inputRatioPrice} + 补全{' '}
+            Prompt {inputTokens} tokens / 1M tokens * ${inputRatioPrice} + Completion{' '}
             {completionTokens} tokens / 1M tokens * ${completionRatioPrice} = $
             {price.toFixed(6)}
           </p>
@@ -170,7 +170,7 @@ export function renderQuotaWithPrompt(quota, digits) {
   let displayInCurrency = localStorage.getItem('display_in_currency');
   displayInCurrency = displayInCurrency === 'true';
   if (displayInCurrency) {
-    return `（等价金额：${renderQuota(quota, digits)}）`;
+    return `（Equivalent amount:${renderQuota(quota, digits)}）`;
   }
   return '';
 }
